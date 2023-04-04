@@ -11,6 +11,11 @@ root.render(
     <App />
   </React.StrictMode>
 );
+window.oncontextmenu = (function(e){
+  e.preventDefault();
+  // console.log(e);
+  
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
