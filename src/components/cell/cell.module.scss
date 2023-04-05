@@ -1,5 +1,13 @@
 .cell {
-    background-color: red;
+    background-color: grey;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.cellOpened {
+    background-color: rgb(88, 88, 88);
     width: 20px;
     height: 20px;
     border: 1px solid black;
