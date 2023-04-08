@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import style from './cell.module.scss';
 import { ReactComponent as Flag } from '../../icons/copy.svg';
+import store from '../../redux/store';
 
 
 type ActiveType = 'empty' | 'bomb' | 'bum';
 type Props = {
-    activeState: ActiveType | number
+    status: string | number,
+    num: number
 }
 
-export function Cell(props: {activeState: string | number}) {
+export function Cell(props: Props) {
     const [flag, setFlag] = useState(false);
     const [init, setInit] = useState(true);
     const [opened, setOpened] = useState(false);
@@ -16,7 +18,8 @@ export function Cell(props: {activeState: string | number}) {
     const handleClick: React.MouseEventHandler<HTMLDivElement> | undefined = (e) => {
         // console.log(e);
         if (e.button === 2) {
-            setFlag((prevState) => !prevState);
+            store.dispatch({type: 'setFlag', payload: props.num })
+            // setFlag((prevState) => !prevState);
         } else {
             setOpened(true)
             setInit(false);
@@ -25,12 +28,16 @@ export function Cell(props: {activeState: string | number}) {
         }
         
     }
-    if (init) {
+    // if (props.status === 'init' || props.status === 'flag') {
+               
         return (
-            <div className={style.cell} onMouseUp={handleClick}>{flag && <Flag/>}</div>
+            <div className={style.cell} onMouseUp={handleClick}>
+                {props.status === 'flag'? <Flag/> : null}
+                {/* {props.status === 'flag'? 'flag' : `${props.status}`}   */}
+          </div>
     
         )
-    } 
+    // } 
     // else
 
     // if (typeof props.activeState === 'number') {
@@ -39,6 +46,6 @@ export function Cell(props: {activeState: string | number}) {
     
     //     ) 
     // } 
-    else return <div className={style.cellOpened}></div> ;
+    // else return <div className={style.cellOpened}></div> ;
     
 }

@@ -5,6 +5,7 @@ import store from '../../redux/store';
 
 export function Field () {
     const [cells, setCells] = useState<Array<String>>();
+    // const myStore = store.getState();
     // useEffect(() => {
     //     const arr = [];
     //     for (let i = 0; i < 9; i++) {
@@ -20,10 +21,11 @@ export function Field () {
         
         
     // }, [])
+    // store.subscribe(() => console.log(store.getState()));
     
     return (
         <div className={style.board}>
-            {store.getState()?.map((e, ind) => <Cell key={ind} activeState={e.status}></Cell>)}
+            {store.getState().map((e, ind) => <Cell key={ind} status={e.status} num={ind}></Cell>)}
         </div>
     )
 }
