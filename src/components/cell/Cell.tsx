@@ -29,6 +29,7 @@ export function Cell(props: Props) {
             dispatch({type: 'cell/checkFlag', payload: props.num })
             // setFlag((prevState) => !prevState);
         } else {
+            dispatch({type: 'cell/checkClick', payload: props.num })
             // setOpened(true)
             // setInit(false);
             console.log('open cell');
@@ -39,10 +40,11 @@ export function Cell(props: Props) {
     // if (props.status === 'init' || props.status === 'flag') {
                
         return (
-            <div className={style.cell} onMouseUp={handleClick}>
+            <div className={props.status === 'opened' ? style.cellEmpty: style.cellInit} onMouseUp={handleClick}>
                 {props.status === 'flag'? <Flag/> : null}
+                {/* {props.status === 'empty' ? <div className='cellEmpty'></div>: null} */}
                 {/* {props.status === 'flag'? 'flag' : `${props.status}`}   */}
-          </div>
+            </div>
     
         )
     // } 

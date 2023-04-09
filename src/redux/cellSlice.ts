@@ -33,6 +33,10 @@ export const cellSlice = createSlice({
       if (curr.status === CELL_STATUS.INIT) curr.status = CELL_STATUS.FLAG;
       else if (curr.status === CELL_STATUS.FLAG) curr.status = CELL_STATUS.INIT;
     },
+    checkClick: (state, action) => {
+      const curr = state[action.payload];
+      if (curr.status === CELL_STATUS.INIT) curr.status = CELL_STATUS.OPENED;
+    },
   },
 });
 
