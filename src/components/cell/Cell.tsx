@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import style from './cell.module.scss';
 import { ReactComponent as Flag } from '../../icons/copy.svg';
-import store from '../../redux/store';
+import {store} from '../../redux/store';
+import { useDispatch } from 'react-redux';
 
 
 type ActiveType = 'empty' | 'bomb' | 'bum';
@@ -11,18 +12,25 @@ type Props = {
 }
 
 export function Cell(props: Props) {
-    const [flag, setFlag] = useState(false);
-    const [init, setInit] = useState(true);
-    const [opened, setOpened] = useState(false);
+    // const [flag, setFlag] = useState(false);
+    // const [init, setInit] = useState(true);
+    // const [opened, setOpened] = useState(false);
+    const dispatch = useDispatch();
 
     const handleClick: React.MouseEventHandler<HTMLDivElement> | undefined = (e) => {
         // console.log(e);
         if (e.button === 2) {
-            store.dispatch({type: 'setFlag', payload: props.num })
+            // if (props.status === 'init') {
+            //     dispatch({type: 'cell/setFlag', payload: props.num })
+            // }
+            // if (props.status === 'flag') {
+            //     dispatch({type: 'cell/delFlag', payload: props.num })
+            // }
+            dispatch({type: 'cell/checkFlag', payload: props.num })
             // setFlag((prevState) => !prevState);
         } else {
-            setOpened(true)
-            setInit(false);
+            // setOpened(true)
+            // setInit(false);
             console.log('open cell');
             
         }

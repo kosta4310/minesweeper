@@ -1,4 +1,8 @@
-import { legacy_createStore } from "redux";
-import rootReducer from "./reducer";
+import { configureStore } from "@reduxjs/toolkit";
+import cellReducer from "./cellSlice";
 
-export default legacy_createStore(rootReducer);
+export const store = configureStore({
+  reducer: {
+    cells: cellReducer,
+  },
+});

@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Cell } from '../cell/Cell';
 import style from './field.module.scss';
-import store from '../../redux/store';
+// import {store} from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { selectCells } from '../../redux/cellSlice';
 
 export function Field () {
-    const [cells, setCells] = useState<Array<String>>();
+    // const [cells, setCells] = useState<Array<String>>();
+    const cells = useSelector(selectCells);
     // const myStore = store.getState();
     // useEffect(() => {
     //     const arr = [];
@@ -25,7 +28,7 @@ export function Field () {
     
     return (
         <div className={style.board}>
-            {store.getState().map((e, ind) => <Cell key={ind} status={e.status} num={ind}></Cell>)}
+            {cells.map((e, ind) => <Cell key={ind} status={e.status} num={ind}></Cell>)}
         </div>
     )
 }
