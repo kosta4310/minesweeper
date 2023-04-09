@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { CELL_STATUS, CELL_MARKER } from "./constants";
-// import { useDispatch } from "react-redux";
 
 type DataCell = {
   id: number;
@@ -57,32 +56,5 @@ export const cellSlice = createSlice({
   },
 });
 
-// export const { checkFlag } = cellSlice.actions;
 export default cellSlice.reducer;
 export const selectCells = (state: { cells: Array<DataCell> }) => state.cells;
-// export default function saperReducer(
-//   state = initialState,
-//   action: { type: string; payload: number }
-// ) {
-//   switch (action.type) {
-//     case "setFlag":
-//       console.log("reducer");
-
-// const changedCell: DataCell = { ind: action.payload, status: "flag" };
-// const newState = [...state];
-// newState[action.payload] = changedCell;
-// const newState = [...state];
-// const newState = state.map((e) => {
-//   if (e.ind === action.payload) {
-//     return { ind: action.payload, status: "flag" };
-//   }
-//   return e;
-// });
-//     newState[action.payload] = { ind: action.payload, status: "flag" };
-//     console.log(newState);
-
-//     return newState;
-//   default:
-//     return state;
-// }
-// }
