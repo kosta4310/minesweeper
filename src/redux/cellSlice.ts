@@ -1,14 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CELL_STATUS } from "./constants";
+import { CELL_STATUS, CELL_MARKER } from "./constants";
 // import { useDispatch } from "react-redux";
 
-type DataCell = { ind: number; status: string };
+type DataCell = {
+  id: number;
+  status: string;
+  marker: string | null;
+  bomb: boolean;
+};
 
 function createInitArray() {
   const data: Array<DataCell> = [];
 
-  for (let i = 0; i < 81; i++) {
-    data.push({ ind: i, status: "init" });
+  for (let i = 1; i < 10; i++) {
+    for (let j = 1; j < 10; j++) {
+      const element = i + "" + j;
+      data.push({
+        id: Number(element),
+        status: CELL_STATUS.INIT,
+        marker: null,
+        bomb: true,
+      });
+    }
   }
 
   return data;
@@ -20,22 +33,26 @@ export const cellSlice = createSlice({
   name: "cell",
   initialState: initialState,
   reducers: {
-    // setFlag: (state, action) => {
-    //   const curr = state[action.payload];
-    //   curr.status = "flag";
-    // },
-    // delFlag: (state, action) => {
-    //   const curr = state[action.payload];
-    //   curr.status = "init";
-    // },
     checkFlag: (state, action) => {
       const curr = state[action.payload];
-      if (curr.status === CELL_STATUS.INIT) curr.status = CELL_STATUS.FLAG;
-      else if (curr.status === CELL_STATUS.FLAG) curr.status = CELL_STATUS.INIT;
+      if (curr.status === CELL_STATUS.INIT && curr.marker === null) {
+        curr.marker = CELL_MARKER.FLAG;
+      } else if (
+        curr.status === CELL_STATUS.INIT &&
+        curr.marker === CELL_MARKER.FLAG
+      ) {
+        curr.marker = null;
+      }
     },
     checkClick: (state, action) => {
       const curr = state[action.payload];
-      if (curr.status === CELL_STATUS.INIT) curr.status = CELL_STATUS.OPENED;
+      if (curr.status === CELL_STATUS.INIT && curr.marker === null) {
+        curr.status = CELL_STATUS.OPENED;
+        if (curr.bomb) {
+          curr.marker = CELL_MARKER.BOMB;
+        }
+      }
+      console.log(state);
     },
   },
 });

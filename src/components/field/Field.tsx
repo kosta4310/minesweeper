@@ -28,7 +28,7 @@ export function Field () {
     
     return (
         <div className={style.board}>
-            {cells.map((e, ind) => <Cell key={ind} status={e.status} num={ind}></Cell>)}
+            {cells.map((e, index) => <Cell key={index} status={e.status} marker={e.marker} num={index}></Cell>)}
         </div>
     )
 }

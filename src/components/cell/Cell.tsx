@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import style from './cell.module.scss';
-import { ReactComponent as Flag } from '../../icons/copy.svg';
+import { ReactComponent as Flag } from '../../icons/flag.svg';
+import { ReactComponent as Bomb } from '../../icons/bomb2.svg';
 import {store} from '../../redux/store';
 import { useDispatch } from 'react-redux';
+import { CELL_MARKER, CELL_STATUS } from '../../redux/constants';
 
 
 type ActiveType = 'empty' | 'bomb' | 'bum';
 type Props = {
     status: string | number,
+    marker: string | null,
     num: number
 }
 
@@ -37,17 +40,17 @@ export function Cell(props: Props) {
         }
         
     }
-    // if (props.status === 'init' || props.status === 'flag') {
+    if (props.status === CELL_STATUS.INIT ) {
                
         return (
-            <div className={props.status === 'opened' ? style.cellEmpty: style.cellInit} onMouseUp={handleClick}>
-                {props.status === 'flag'? <Flag/> : null}
+            <div className={style.cellInit} onMouseUp={handleClick}>
+                {props.marker === 'flag' && <Flag/>}
                 {/* {props.status === 'empty' ? <div className='cellEmpty'></div>: null} */}
                 {/* {props.status === 'flag'? 'flag' : `${props.status}`}   */}
             </div>
     
         )
-    // } 
+    } 
     // else
 
     // if (typeof props.activeState === 'number') {
@@ -56,6 +59,8 @@ export function Cell(props: Props) {
     
     //     ) 
     // } 
-    // else return <div className={style.cellOpened}></div> ;
+    else return <div className={style.cellOpened}>
+        {props.marker === CELL_MARKER.BOMB && <Bomb></Bomb>}
+    </div> ;
     
 }
