@@ -34,7 +34,20 @@ export function Cell(props: Props) {
             </div>
     
         )
-    } 
+    } else if (props.status === CELL_STATUS.BUM) {
+        return (
+            <div className={style.cellBum}>
+                <Bomb/>
+            </div>
+    
+        )
+    } else if (props.status === CELL_STATUS.FLAG_FALSY) {
+        return (
+            <div className={style.cellFlagFalsy}>
+                <Flag/>
+            </div>
+        )
+    }
      
     else return <div className={style.cellOpened}>
         {props.marker === CELL_MARKER.BOMB && <Bomb></Bomb>}

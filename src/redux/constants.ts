@@ -1,8 +1,8 @@
 export const CELL_STATUS = {
   INIT: "init",
-  FLAG: "flag",
-  EMPTY: "empty",
   OPENED: "opened",
+  FLAG_FALSY: "flag_falsy",
+  BUM: "bum",
 };
 
 export const CELL_MARKER = {
