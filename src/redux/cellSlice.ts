@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { CELL_STATUS, CELL_MARKER } from "./constants";
-import { gameOver, placeBombs } from "./utils";
+import { checkCells, gameOver, placeBombs, setMarkerBomb } from "./utils";
 
 export type DataCell = {
-  id: number;
+  id: string;
   status: string;
   marker: string | null;
   bomb: boolean;
+  number: undefined | number;
 };
 
 function createInitArray() {
@@ -16,19 +17,16 @@ function createInitArray() {
     for (let j = 1; j < 10; j++) {
       const element = i + "" + j;
       data.push({
-        id: Number(element),
+        id: element,
         status: CELL_STATUS.INIT,
         marker: null,
         bomb: false,
+        number: undefined,
       });
     }
   }
 
-  const bomb = placeBombs();
-  for (const item of bomb.values()) {
-    data[item].bomb = true;
-  }
-  console.log(bomb);
+  setMarkerBomb(data);
 
   return data;
 }
@@ -58,7 +56,10 @@ export const cellSlice = createSlice({
           gameOver(state);
           curr.marker = CELL_MARKER.BOMB;
           curr.status = CELL_STATUS.BUM;
-        }
+        } else if (curr.number) {
+          // curr.status = CELL_STATUS.OPENED;
+          curr.marker = CELL_MARKER.NUMBER;
+        } else checkCells(state, action.payload);
       }
       console.log(state);
     },

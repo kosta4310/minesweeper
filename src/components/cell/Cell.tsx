@@ -8,7 +8,8 @@ import { CELL_MARKER, CELL_STATUS } from '../../redux/constants';
 type Props = {
     status: string | number,
     marker: string | null,
-    num: number
+    num: number,
+    number: number | undefined
 }
 
 export function Cell(props: Props) {
@@ -26,6 +27,7 @@ export function Cell(props: Props) {
         }
         
     }
+
     if (props.status === CELL_STATUS.INIT ) {
                
         return (
@@ -51,6 +53,7 @@ export function Cell(props: Props) {
      
     else return <div className={style.cellOpened}>
         {props.marker === CELL_MARKER.BOMB && <Bomb></Bomb>}
+        {props.marker === CELL_MARKER.NUMBER && <span>{props.number}</span>}
     </div> ;
     
 }

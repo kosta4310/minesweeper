@@ -8,7 +8,7 @@ export function Field () {
     
     return (
         <div className={style.board}>
-            {cells.map((e, index) => <Cell key={index} status={e.status} marker={e.marker} num={index}></Cell>)}
+            {cells.map((e, index) => <Cell key={index} status={e.status} marker={e.marker} number={e.number} num={index}></Cell>)}
         </div>
     )
 }

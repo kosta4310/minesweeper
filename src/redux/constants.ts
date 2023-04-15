@@ -8,4 +8,5 @@ export const CELL_STATUS = {
 export const CELL_MARKER = {
   FLAG: "flag",
   BOMB: "bomb",
+  NUMBER: "number",
 };
