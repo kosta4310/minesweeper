@@ -82,23 +82,17 @@ export function checkCells(data: Array<DataCell>, index: number) {
   }
 
   function searchCells(i: number, j: number) {
-    console.log("rec" + i + j);
-    const indexOfArray = mapIdOfIndex.get(i + "" + j);
     const willCheckCells = [];
 
     for (let k = i - 1; k <= i + 1; k++) {
       for (let n = j - 1; n <= j + 1; n++) {
         if (k >= 1 && k <= 9 && n >= 1 && n <= 9) {
-          console.log("kj" + k + n);
-
           const indexOfArray = mapIdOfIndex.get(k + "" + n) as number;
           const num = data[indexOfArray].number;
+
           if (num) {
-            // data[indexOfArray].status = CELL_STATUS.OPENED;
-            // data[indexOfArray].marker = CELL_MARKER.NUMBER;
             willOpenNumber.add(indexOfArray);
           } else {
-            // data[indexOfArray].status = CELL_STATUS.OPENED;
             if (!willOpenEmpty.has(indexOfArray)) {
               willOpenEmpty.add(indexOfArray);
               willCheckCells.push(indexOfArray);
