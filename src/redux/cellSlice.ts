@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CELL_STATUS, CELL_MARKER } from "./constants";
-import { checkCells, gameOver, placeBombs, setMarkerBomb } from "./utils";
+import { CELL_STATUS, CELL_MARKER, numberOfBomb } from "./constants";
+import { checkCells, gameOver, openCell, setMarkerBomb } from "./utils";
 
 export type DataCell = {
   id: string;
@@ -9,6 +9,8 @@ export type DataCell = {
   bomb: boolean;
   number: undefined | number;
 };
+
+type State = { cells: { dataCell: Array<DataCell>; count: number } };
 
 function createInitArray() {
   const data: Array<DataCell> = [];
@@ -35,36 +37,41 @@ const initialState = createInitArray();
 
 export const cellSlice = createSlice({
   name: "cell",
-  initialState: initialState,
+  initialState: {
+    count: numberOfBomb,
+    dataCell: initialState,
+  },
   reducers: {
     checkFlag: (state, action) => {
-      const curr = state[action.payload];
+      const curr = state.dataCell[action.payload];
       if (curr.status === CELL_STATUS.INIT && curr.marker === null) {
         curr.marker = CELL_MARKER.FLAG;
+        state.count -= 1;
       } else if (
         curr.status === CELL_STATUS.INIT &&
         curr.marker === CELL_MARKER.FLAG
       ) {
         curr.marker = null;
+        state.count += 1;
       }
     },
     checkClick: (state, action) => {
-      const curr = state[action.payload];
+      const curr = state.dataCell[action.payload];
       if (curr.status === CELL_STATUS.INIT && curr.marker === null) {
-        curr.status = CELL_STATUS.OPENED;
+        // curr.status = CELL_STATUS.OPENED;
+        openCell(state, action.payload);
         if (curr.bomb) {
-          gameOver(state);
+          gameOver(state.dataCell);
           curr.marker = CELL_MARKER.BOMB;
           curr.status = CELL_STATUS.BUM;
         } else if (curr.number) {
-          // curr.status = CELL_STATUS.OPENED;
           curr.marker = CELL_MARKER.NUMBER;
         } else checkCells(state, action.payload);
       }
-      console.log(state);
     },
   },
 });
 
 export default cellSlice.reducer;
-export const selectCells = (state: { cells: Array<DataCell> }) => state.cells;
+export const selectCells = (state: State) => state.cells.dataCell;
+export const selectCount = (state: State) => state.cells.count;

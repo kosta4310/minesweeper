@@ -22,7 +22,7 @@ export function Cell(props: Props) {
             dispatch({type: 'cell/checkFlag', payload: props.num })
         } else {
             dispatch({type: 'cell/checkClick', payload: props.num })
-            console.log('open cell');
+            
             
         }
         

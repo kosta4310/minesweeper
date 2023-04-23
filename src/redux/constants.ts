@@ -10,3 +10,5 @@ export const CELL_MARKER = {
   BOMB: "bomb",
   NUMBER: "number",
 };
+
+export const numberOfBomb = 10;

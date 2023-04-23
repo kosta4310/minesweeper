@@ -60,7 +60,11 @@ function getMapIdOfIndex(data: Array<DataCell>) {
   return mapIdOfIndex;
 }
 
-export function checkCells(data: Array<DataCell>, index: number) {
+export function checkCells(
+  value: { dataCell: Array<DataCell> },
+  index: number
+) {
+  const data = value.dataCell;
   const [i, j] = data[index].id.split("");
   const mapIdOfIndex = getMapIdOfIndex(data);
   const willOpenEmpty = new Set<number>();
@@ -70,13 +74,15 @@ export function checkCells(data: Array<DataCell>, index: number) {
 
   if (willOpenEmpty.size) {
     for (const ind of willOpenEmpty.values()) {
-      data[ind].status = CELL_STATUS.OPENED;
+      // data[ind].status = CELL_STATUS.OPENED;
+      openCell(value, ind);
     }
   }
 
   if (willOpenNumber.size) {
     for (const ind of willOpenNumber.values()) {
-      data[ind].status = CELL_STATUS.OPENED;
+      // data[ind].status = CELL_STATUS.OPENED;
+      openCell(value, ind);
       data[ind].marker = CELL_MARKER.NUMBER;
     }
   }
@@ -109,4 +115,9 @@ export function checkCells(data: Array<DataCell>, index: number) {
       });
     }
   }
+}
+
+export function openCell(data: { dataCell: Array<DataCell> }, index: number) {
+  const currentCell = data.dataCell[index];
+  currentCell.status = CELL_STATUS.OPENED;
 }
