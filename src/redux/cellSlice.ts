@@ -10,7 +10,9 @@ export type DataCell = {
   number: undefined | number;
 };
 
-type State = { cells: { dataCell: Array<DataCell>; count: number } };
+type State = {
+  cells: { dataCell: Array<DataCell>; count: number; startTimer: boolean };
+};
 
 function createInitArray() {
   const data: Array<DataCell> = [];
@@ -33,14 +35,16 @@ function createInitArray() {
   return data;
 }
 
-const initialState = createInitArray();
+const initDataCell = createInitArray();
+const initData = {
+  count: numberOfBomb,
+  dataCell: initDataCell,
+  startTimer: false,
+};
 
 export const cellSlice = createSlice({
   name: "cell",
-  initialState: {
-    count: numberOfBomb,
-    dataCell: initialState,
-  },
+  initialState: initData,
   reducers: {
     checkFlag: (state, action) => {
       const curr = state.dataCell[action.payload];
@@ -58,16 +62,19 @@ export const cellSlice = createSlice({
     checkClick: (state, action) => {
       const curr = state.dataCell[action.payload];
       if (curr.status === CELL_STATUS.INIT && curr.marker === null) {
-        // curr.status = CELL_STATUS.OPENED;
         openCell(state, action.payload);
         if (curr.bomb) {
           gameOver(state.dataCell);
           curr.marker = CELL_MARKER.BOMB;
           curr.status = CELL_STATUS.BUM;
+          state.startTimer = false;
         } else if (curr.number) {
           curr.marker = CELL_MARKER.NUMBER;
         } else checkCells(state, action.payload);
       }
+    },
+    setStartTimer: (state, action) => {
+      state.startTimer = true;
     },
   },
 });
@@ -75,3 +82,4 @@ export const cellSlice = createSlice({
 export default cellSlice.reducer;
 export const selectCells = (state: State) => state.cells.dataCell;
 export const selectCount = (state: State) => state.cells.count;
+export const selectStartTimer = (state: State) => state.cells.startTimer;

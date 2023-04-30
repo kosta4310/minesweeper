@@ -3,6 +3,8 @@ import { ReactComponent as Flag } from '../../icons/flag.svg';
 import { ReactComponent as Bomb } from '../../icons/bomb2.svg';
 import { useDispatch } from 'react-redux';
 import { CELL_MARKER, CELL_STATUS } from '../../redux/constants';
+import { useSelector } from 'react-redux';
+import { selectStartTimer } from '../../redux/cellSlice';
 
 
 type Props = {
@@ -13,10 +15,13 @@ type Props = {
 }
 
 export function Cell(props: Props) {
-    
+    const startTimer = useSelector(selectStartTimer);
     const dispatch = useDispatch();
 
     const handleClick: React.MouseEventHandler<HTMLDivElement> | undefined = (e) => {
+        if (!startTimer) {
+            dispatch({type: 'cell/setStartTimer'});
+        }
         if (e.button === 2) {
            
             dispatch({type: 'cell/checkFlag', payload: props.num })
