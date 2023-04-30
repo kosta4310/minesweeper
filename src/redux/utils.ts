@@ -16,8 +16,8 @@ export function placeBombs() {
   return mapBomb;
 }
 
-export function gameOver(state: Array<DataCell>) {
-  state.forEach((cell) => {
+export function gameOver(dataCell: Array<DataCell>) {
+  dataCell.forEach((cell) => {
     if (cell.bomb && cell.marker !== CELL_MARKER.FLAG) {
       cell.status = CELL_STATUS.OPENED;
       cell.marker = CELL_MARKER.BOMB;
@@ -61,7 +61,7 @@ function getMapIdOfIndex(data: Array<DataCell>) {
 }
 
 export function checkCells(
-  value: { dataCell: Array<DataCell> },
+  value: { dataCell: Array<DataCell>; counterOpenedCell: number },
   index: number
 ) {
   const data = value.dataCell;
@@ -117,7 +117,11 @@ export function checkCells(
   }
 }
 
-export function openCell(data: { dataCell: Array<DataCell> }, index: number) {
+export function openCell(
+  data: { dataCell: Array<DataCell>; counterOpenedCell: number },
+  index: number
+) {
+  data.counterOpenedCell += 1;
   const currentCell = data.dataCell[index];
   currentCell.status = CELL_STATUS.OPENED;
 }

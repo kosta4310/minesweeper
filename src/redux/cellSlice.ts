@@ -11,7 +11,12 @@ export type DataCell = {
 };
 
 type State = {
-  cells: { dataCell: Array<DataCell>; count: number; startTimer: boolean };
+  cells: {
+    dataCell: Array<DataCell>;
+    flagCounter: number;
+    startTimer: boolean;
+    counterOpenedCell: number;
+  };
 };
 
 function createInitArray() {
@@ -37,9 +42,10 @@ function createInitArray() {
 
 const initDataCell = createInitArray();
 const initData = {
-  count: numberOfBomb,
+  flagCounter: numberOfBomb,
   dataCell: initDataCell,
   startTimer: false,
+  counterOpenedCell: 0,
 };
 
 export const cellSlice = createSlice({
@@ -50,13 +56,13 @@ export const cellSlice = createSlice({
       const curr = state.dataCell[action.payload];
       if (curr.status === CELL_STATUS.INIT && curr.marker === null) {
         curr.marker = CELL_MARKER.FLAG;
-        state.count -= 1;
+        state.flagCounter -= 1;
       } else if (
         curr.status === CELL_STATUS.INIT &&
         curr.marker === CELL_MARKER.FLAG
       ) {
         curr.marker = null;
-        state.count += 1;
+        state.flagCounter += 1;
       }
     },
     checkClick: (state, action) => {
@@ -64,6 +70,7 @@ export const cellSlice = createSlice({
       if (curr.status === CELL_STATUS.INIT && curr.marker === null) {
         openCell(state, action.payload);
         if (curr.bomb) {
+          state.startTimer = false;
           gameOver(state.dataCell);
           curr.marker = CELL_MARKER.BOMB;
           curr.status = CELL_STATUS.BUM;
@@ -72,14 +79,24 @@ export const cellSlice = createSlice({
           curr.marker = CELL_MARKER.NUMBER;
         } else checkCells(state, action.payload);
       }
+
+      if (state.flagCounter === 0 && state.counterOpenedCell === 71) {
+        state.startTimer = false;
+      }
+      console.log(state.counterOpenedCell);
     },
     setStartTimer: (state, action) => {
       state.startTimer = true;
+    },
+    incrementOpenedCell: (state, action) => {
+      state.counterOpenedCell = state.counterOpenedCell + 1;
     },
   },
 });
 
 export default cellSlice.reducer;
 export const selectCells = (state: State) => state.cells.dataCell;
-export const selectCount = (state: State) => state.cells.count;
+export const selectCount = (state: State) => state.cells.flagCounter;
+export const selectIncrementOpenedCell = (state: State) =>
+  state.cells.counterOpenedCell;
 export const selectStartTimer = (state: State) => state.cells.startTimer;

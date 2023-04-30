@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { selectStartTimer } from '../../redux/cellSlice';
 
 
+
 type Props = {
     status: string | number,
     marker: string | null,
@@ -27,8 +28,7 @@ export function Cell(props: Props) {
             dispatch({type: 'cell/checkFlag', payload: props.num })
         } else {
             dispatch({type: 'cell/checkClick', payload: props.num })
-            
-            
+                        
         }
         
     }
@@ -56,9 +56,12 @@ export function Cell(props: Props) {
         )
     }
      
-    else return <div className={style.cellOpened}>
+    else {
+        
+        return <div className={style.cellOpened}>
         {props.marker === CELL_MARKER.BOMB && <Bomb></Bomb>}
         {props.marker === CELL_MARKER.NUMBER && <span>{props.number}</span>}
-    </div> ;
+    </div>
+    } ;
     
 }
